@@ -1,8 +1,8 @@
-import type { Contest, ContestMap } from "./Contest";
-import type { Problem, ProblemMap } from "./Problem";
-import type { Solution, SolutionMap } from "./Solution";
-import type * as StudyPlanData from "./StydyPlan";
-import type { Tag, TagMap } from "./Tag";
+import type { Contest, ContestMap } from "./contest";
+import type { Problem, ProblemMap } from "./problem";
+import type { Solution, SolutionMap } from "./solution";
+import type * as StudyPlanData from "./stydyPlan";
+import type { Tag, TagMap } from "./tag";
 
 export type {
   Contest,
@@ -15,3 +15,4 @@ export type {
   Tag,
   TagMap
 };
+
