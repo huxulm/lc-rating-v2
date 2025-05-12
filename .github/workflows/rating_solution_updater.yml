@@ -1,0 +1,45 @@
+name: Rating Solution Updater
+
+on:
+  schedule:
+    - cron: "0 10 * * *" # 每天 UTC 时间 10:00 / Beijing 时间 18:00 执行
+  workflow_dispatch:
+
+jobs:
+  rating-solution-updater:
+    runs-on: ubuntu-latest
+    environment: lc-maker
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      MONGO_URI: ${{ secrets.MONGO_URI }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASS: ${{ secrets.DB_PASS }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Fetching data
+        run: |
+          # echo "Operating system:"
+          uname -a
+          # download binary from github release
+          sudo wget -O /usr/bin/lc https://github.com/huxulm/lc-rating/releases/download/lc-maker/lc-maker
+          sudo chmod +x /usr/bin/lc
+          lc --latest --exemask 12 --loglevel 5 --out ./public
+
+      - name: Commit changes
+        run: |
+          git add .
+          git diff-index --quiet HEAD || git commit -m "Update solutions🎈"
+
+      - name: Push changes
+        if: success()
+        run: git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
