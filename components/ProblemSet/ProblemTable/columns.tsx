@@ -65,7 +65,7 @@ export const getColumns = () => [
     cell: ({ row }) => {
       const tags = row.getValue<TableCol["tags"]>("tags");
       return (
-        <div className="flex flex-wrap justify-center items-center gap-1 text-pretty w-30 m-auto">
+        <div className="flex flex-wrap justify-center items-center gap-1 text-pretty w-75 m-auto">
           {tags.map((tag) => (
             <I18NTag key={tag.id} label={tag.label} />
           ))}
